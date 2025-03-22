@@ -1,0 +1,74 @@
+{
+    "meetings": [
+        {
+            "id": 1,
+            "title": "Meeting with Mr. Sharma",
+            "description": "Discussion on academic performance",
+            "time": "10:30 AM",
+            "date": "2025-12-02"
+        },
+        {
+            "id": 2,
+            "title": "Meeting with Dr. Gupta",
+            "description": "Career guidance session",
+            "time": "3:00 PM",
+            "date": "2025-12-03"
+        },
+        {
+            "id": 3,
+            "title": "Meeting with Ms. Verma",
+            "description": "Feedback on project progress",
+            "time": "11:00 AM",
+            "date": "2025-12-04"
+        },
+        {
+            "id": 4,
+            "title": "Meeting with Mr. Ramesh",
+            "description": "Weekly review meeting",
+            "time": "4:30 PM",
+            "date": "2025-12-05"
+        },
+        {
+            "id": 5,
+            "title": "Meeting with Mr. Mehta",
+            "description": "Mentorship session on competitive coding",
+            "time": "9:30 AM",
+            "date": "2025-12-06"
+        },
+        {
+            "id": 6,
+            "title": "Meeting with Ms. Roy",
+            "description": "Discussion on final year project ideas",
+            "time": "2:00 PM",
+            "date": "2025-12-07"
+        },
+        {
+            "id": 7,
+            "title": "Meeting with Mr. Kapoor",
+            "description": "Guidance on internship opportunities",
+            "time": "10:00 AM",
+            "date": "2025-12-08"
+        },
+        {
+            "id": 8,
+            "title": "Meeting with Dr. Rao",
+            "description": "Clarification session on research methodology",
+            "time": "1:30 PM",
+            "date": "2025-12-09"
+        },
+        {
+            "id": 9,
+            "title": "Meeting with Mr. Singh",
+            "description": "Preparation tips for placements",
+            "time": "3:45 PM",
+            "date": "2025-12-10"
+        },
+        {
+            "id": 10,
+            "title": "Meeting with Dr. Patel",
+            "description": "End-of-semester review meeting",
+            "time": "5:00 PM",
+            "date": "2025-12-11"
+        }
+    ]
+}
