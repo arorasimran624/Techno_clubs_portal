@@ -21,52 +21,49 @@ const AchievementsUser = () => {
       <div className="w-64 bg-white border-r border-gray-200 p-6">
         <h1 className="text-2xl font-bold text-red-400 mb-10">Techno Clubs</h1>
         
+       
+
         <nav className="flex-1">
                  <ul className="space-y-2">
                    <li>
-                   <Link to="/dashboard" className="flex items-center gap-3 p-3 bg-orange-100 rounded-md text-gray-800 font-medium">
+                   <Link to="/userdashboard" className="flex items-center gap-3 p-3 bg-orange-100 rounded-md text-gray-800 font-medium">
                        <Home className="w-5 h-5 text-gray-600" />
                        Dashboard
                      </Link>
                    </li>
                    <li>
-                   <Link to="/club" className="flex items-center gap-3 p-3 bg-orange-100 rounded-md text-gray-800 font-medium">
+                   <Link to="/usermyclub" className="flex items-center gap-3 p-3 bg-orange-100 rounded-md text-gray-800 font-medium">
                        <Home className="w-5 h-5 text-gray-600" />
                        My Clubs
                      </Link>
                    </li>
                    <li>
-                   <Link to="/event" className="flex items-center gap-3 p-3 bg-orange-100 rounded-md text-gray-800 font-medium">
+                   <Link to="/userevent" className="flex items-center gap-3 p-3 bg-orange-100 rounded-md text-gray-800 font-medium">
                        <Home className="w-5 h-5 text-gray-600" />
                        Event
                      </Link>
                    </li>
                    <li>
-                   <Link to="/achievements" className="flex items-center gap-3 p-3 bg-orange-100 rounded-md text-gray-800 font-medium">
+                   <Link to="/userachievements" className="flex items-center gap-3 p-3 bg-orange-100 rounded-md text-gray-800 font-medium">
                        <Home className="w-5 h-5 text-gray-600" />
                        My Achievements
                      </Link>
                    </li>
+                 
                    <li>
-                   <Link to="/requests" className="flex items-center gap-3 p-3 bg-orange-100 rounded-md text-gray-800 font-medium">
-                       <Home className="w-5 h-5 text-gray-600" />
-                       Pending Requests
-                     </Link>
-                   </li>
-                   <li>
-                   <Link to="/resources" className="flex items-center gap-3 p-3 bg-orange-100 rounded-md text-gray-800 font-medium">
+                   <Link to="/userresource" className="flex items-center gap-3 p-3 bg-orange-100 rounded-md text-gray-800 font-medium">
                        <Home className="w-5 h-5 text-gray-600" />
                        Resources
                      </Link>
                    </li>
                    <li>
-                   <Link to="/announcements" className="flex items-center gap-3 p-3 bg-orange-100 rounded-md text-gray-800 font-medium">
+                   <Link to="/userannouncements" className="flex items-center gap-3 p-3 bg-orange-100 rounded-md text-gray-800 font-medium">
                        <Home className="w-5 h-5 text-gray-600" />
                      Announcements
                      </Link>
                    </li>
                    <li>
-                   <Link to="/settings" className="flex items-center gap-3 p-3 bg-orange-100 rounded-md text-gray-800 font-medium">
+                   <Link to="/usersettings" className="flex items-center gap-3 p-3 bg-orange-100 rounded-md text-gray-800 font-medium">
                        <Home className="w-5 h-5 text-gray-600" />
                        Settings
                      </Link>
