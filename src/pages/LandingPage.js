@@ -1,7 +1,7 @@
  import { ChromeIcon as Google, Calendar, Trophy, Lock } from "lucide-react" 
 import { FaTwitter, FaLinkedin, FaInstagram, FaGithub } from 'react-icons/fa';
 import { useState } from 'react';
-
+//new changes
 import { useNavigate } from 'react-router-dom';
 export default function TechnoClubs() {
   const [showLoginModal, setShowLoginModal] = useState(false);
