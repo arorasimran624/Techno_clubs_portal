@@ -1,38 +1,96 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { Link } from 'react-router-dom';
-import { Home, Search, SlidersHorizontal, FileText, Download } from 'lucide-react';
+import { X,Home, Search, SlidersHorizontal, FileText, Download ,Upload} from 'lucide-react';
 
 const ResourcesPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  
-  const resources = [
-    {
-      id: 1,
-      title: 'Club Guidelines 2024',
-      description: 'Official guidelines and regulations for club activities',
-      fileSize: '2.4 MB',
-      fileType: 'PDF'
-    },
-    {
-      id: 2,
-      title: 'Event Planning Template',
-      description: 'Standard template for organizing club events',
-      fileSize: '1.8 MB',
-      fileType: 'DOCX'
-    },
-    {
-      id: 3,
-      title: 'Budget Report Q1',
-      description: 'Financial report for the first quarter',
-      fileSize: '3.2 MB',
-      fileType: 'XLSX'
-    }
-  ];
+  const [showUploadForm, setShowUploadForm] = useState(false);
+  const [formData, setFormData] = useState({
+    title: "",         // Resource Title
+       
+    club_name: "",     // Name of the Club
+    description: "",   // Short Description
+    file: null         // File Upload
+  });
+  const [resources, setResources] = useState([]);
 
+  useEffect(() => {
+    const fetchResources = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/resources");
+        const data = await response.json();
+  
+        console.log("Fetched resources:", data); // Debugging output
+  
+        if (data.resources && Array.isArray(data.resources)) {
+          setResources(data.resources); // Set only the array
+        } else {
+          console.error("Unexpected response format:", data);
+          setResources([]); // Ensure `resources` is always an array
+        }
+      } catch (error) {
+        console.error("Error fetching resources:", error);
+        setResources([]); // Prevent breaking the UI
+      }
+    };
+  
+    fetchResources();
+  }, []);
+  
+  
+  
   const handleDownload = (id) => {
     console.log(`Downloading resource with id: ${id}`);
-    // Implement download functionality here
   };
+
+  const handleFileChange = (event) => {
+    setFormData({ ...formData, file: event.target.files[0] });
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleUpload = async (event) => {
+    event.preventDefault();
+  
+    if (!formData.file) {
+      alert("Please select a file to upload.");
+      return;
+    }
+  
+    const formDataToSend = new FormData();
+    formDataToSend.append("title", formData.title);  // Fixed key
+    formDataToSend.append("club_name", formData.club_name);  // Fixed key
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("file", formData.file);
+  
+    try {
+      const response = await fetch("http://127.0.0.1:8000/upload-resource/", {
+        method: "POST",
+        body: formDataToSend,
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        alert("File uploaded successfully!");
+        console.log("Uploaded file ID:", data.id);
+        setShowUploadForm(false);
+        // Refresh the resources list
+        setResources([...resources, data]);
+      } else {
+        console.error("Upload failed:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
+  };
+
+
+ 
+
+  
 
   return (
     <div className="flex h-screen bg-white">
@@ -63,12 +121,7 @@ const ResourcesPage = () => {
                 Event
               </Link>
             </li>
-            <li>
-            <Link to="/achievements" className="flex items-center gap-3 p-3 bg-orange-100 rounded-md text-gray-800 font-medium">
-                <Home className="w-5 h-5 text-gray-600" />
-                My Achievements
-              </Link>
-            </li>
+           
             <li>
             <Link to="/requests" className="flex items-center gap-3 p-3 bg-orange-100 rounded-md text-gray-800 font-medium">
                 <Home className="w-5 h-5 text-gray-600" />
@@ -100,8 +153,84 @@ const ResourcesPage = () => {
       {/* Main content */}
       <div className="flex-1 p-8">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-2xl font-medium text-gray-700 mb-1">Resources</h1>
-          <p className="text-gray-500 mb-6">Club Documents and Materials</p>
+        <div className="flex justify-between items-center mb-4">
+            <div>
+              <h1 className="text-2xl font-medium text-gray-700">Resources</h1>
+              <p className="text-gray-500">Club Documents and Materials</p>
+            </div>
+            <button onClick={() => setShowUploadForm(true)} className="flex items-center gap-2 px-4 py-2 bg-[#e97055] text-white rounded-lg">
+              <Upload size={18} /> Upload Resource
+            </button>
+          </div>
+          {showUploadForm && ( 
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="bg-white p-8 rounded-lg w-[500px] shadow-lg relative">
+      {/* Close Button */}
+      <button
+        className="absolute top-3 right-3 text-gray-600 hover:text-gray-900"
+        onClick={() => setShowUploadForm(false)}
+      >
+        <X size={24} />
+      </button>
+
+      {/* Form Title */}
+      <h2 className="text-xl font-semibold mb-6 text-center">Upload New Resource</h2>
+
+      {/* Upload Form */}
+      <form onSubmit={handleUpload}>
+  <input 
+    type="text"  
+    name="title"  // Fixed name attribute
+    placeholder="Resource Name"  
+    value={formData.title}  
+    onChange={handleInputChange} 
+    className="w-full mb-3 p-3 border rounded-lg" 
+    required 
+  />
+  <input  
+    type="text"  
+    name="club_name"  // Fixed name attribute
+    placeholder="Club Name"  
+    value={formData.club_name}  
+    onChange={handleInputChange}   
+    className="w-full mb-3 p-3 border rounded-lg"   
+    required  
+  />
+  <textarea 
+    name="description"  
+    placeholder="Short Description"  
+    value={formData.description}  
+    onChange={handleInputChange}  
+    className="w-full mb-3 p-3 border rounded-lg resize-none"  
+    required
+  ></textarea>
+  <input 
+    type="file"  
+    accept=".pdf,.doc,.docx"  
+    onChange={handleFileChange}  
+    className="w-full mb-4 p-2 border rounded-lg"  
+    required  
+  />
+  <div className="flex justify-end space-x-3">
+    <button 
+      type="button"  
+      onClick={() => setShowUploadForm(false)}  
+      className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg"
+    >
+      Cancel
+    </button>
+    <button 
+      type="submit"  // Removed onClick
+      className="px-5 py-2 bg-[#e97055] text-white rounded-lg"
+    >
+      Upload Document
+    </button>
+  </div>
+</form>
+  </div>
+  </div>
+)}
+
           
           {/* Search and filter */}
           <div className="flex gap-4 mb-8">
@@ -120,33 +249,33 @@ const ResourcesPage = () => {
               Filter by club
             </button>
           </div>
+        
+          
           
           {/* Resources grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {resources.map(resource => (
-              <div key={resource.id} className="border border-gray-200 rounded-lg overflow-hidden">
-                <div className="p-6">
-                  <div className="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center mb-4">
-                    <FileText className="text-amber-500" size={24} />
-                  </div>
-                  
-                  <h3 className="font-medium text-lg mb-2">{resource.title}</h3>
-                  <p className="text-gray-600 text-sm mb-4">{resource.description}</p>
-                  
-                  <div className="text-gray-500 text-sm">
-                    {resource.fileSize} • {resource.fileType}
-                  </div>
-                </div>
-                
-                <button
-                  onClick={() => handleDownload(resource.id)}
-                  className="w-full py-3 bg-[#e97055] hover:bg-[#d85f45] text-white flex items-center justify-center gap-2 transition-colors"
-                >
-                  <Download size={18} />
-                  Download
-                </button>
-              </div>
-            ))}
+          {resources && Array.isArray(resources) && resources.length > 0 ? (
+  resources.map((resource) => (
+    <div key={resource.id} className="border border-gray-200 rounded-lg overflow-hidden">
+      <div className="p-6">
+        <h3 className="font-medium text-lg mb-2">{resource.title}</h3>
+        <p className="text-gray-600 text-sm mb-4">{resource.description}</p>
+        <a 
+          href={resource.file_url} 
+          download 
+          className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-[#e97055] text-white rounded-lg hover:bg-[#d85c44]"
+        >
+          <Download size={18} />
+          Download
+        </a>
+      </div>
+    </div>
+  ))
+) : (
+  <p>No resources found.</p>
+)}
+
+
           </div>
         </div>
       </div>
